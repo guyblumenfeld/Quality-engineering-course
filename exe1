@@ -1,0 +1,38 @@
+#import ggplot2
+
+library("ggplot2")
+#Q1
+#a
+#assumptions: normal distribution, Independent observations.
+bottles = rnorm(n=200, mean= 29.92, sd= 0.12)
+#b
+hist(bottles, breaks = 100,
+     main="200 bottles sample",
+     xlab="Liters of Acid in a bottle",
+     xlim=c(29.5,30.5),
+     col="darkmagenta")
+df_bottles = data.frame(x = bottles)
+df_expected <- data.frame(y=dnorm(y, mean= 29.92, sd= 0.12))
+ggplot() + ggtitle("200 bottles sample vs normal distribution") +
+  geom_density(data = df_bottles, aes(x = x), 
+               fill = "#E69F00", color = "black", alpha = 0.7) + 
+  geom_density(data = df_expected, aes(x = y),
+               fill = "#56B4E9", color = "black", alpha = 0.7)
+
+#Q2 
+#a 
+Q2data = data.frame("Asembly line number" = c(1, 2, 3, 4), 
+                    "Average"= c(0.684, 0.711, 0.687, 0.724),
+                    "sd"= c(0.007, 0.009, 0.0065, 0.0065))
+Q2data <- within(Q2data,"disqualified proportion"<- 1 - pnorm(0.72, mean=Average, sd=sd) + pnorm(0.68, mean=Average, sd=sd))
+print(Q2data)
+#b??? 
+#c 
+#we would change the average of all the assembly lines
+Q2data_b = data.frame("Asembly line number" = c(1, 2, 3, 4), 
+                    "Average"= c(0.7, 0.7, 0.7, 0.7),
+                    "sd"= c(0.007, 0.009, 0.0065, 0.0065))
+Q2data_b <- within(Q2data_b,"disqualified proportion"<- 1 - pnorm(0.72, mean=Average, sd=sd) + pnorm(0.68, mean=Average, sd=sd))
+print(Q2data_b)
+# now the best lines are the ones with the smallest sd, lines - 3,4
+
